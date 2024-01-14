@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        .card {
+            width: 600px;
+            box-shadow: none;
+            /* border: 1px solid #000; */
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container text-center mt-5">
+        <div class="row justify-content-md-center">
+            <div class="card">
+                <img src="Wallpaper_1.jpg" class="card-img p-0 m-0" alt="...">
+            </div>
+            <div class="card-body mt-3">
+                <button class="btn btn-primary" id="prev">prev</button>
+                        <button class="btn btn-primary" id="next">next</button>
+
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script>
+        const cards = document.querySelectorAll('.card')
+        const cardbtn = document.querySelectorAll('.card-body')
+        const imgList = ["Wallpaper_1.jpg", "Wallpaper_2.jpg", "Wallpaper_3.jpg", "Wallpaper_4.jpg", "Wallpaper_5.jpg"]
+        cardbtn.forEach(btn => {
+            btn.addEventListener("click", changeImg)
+            console.log("btn", btn);
+        });
+
+        function changeImg(e) {
+            console.log("e", e.target);
+            const randomIndex = Math.floor(Math.random() * imgList.length);
+            console.log("randomIndex", imgList[randomIndex]);
+            cards.forEach(card => {
+                const imgElement = card.querySelector('img');
+                // Now 'imgElement' contains the selected img element within each card
+                console.log(imgElement);
+                imgElement.setAttribute('src', imgList[randomIndex])
+            });
+        }
+        console.log(cardbtn);
+
+    </script>
+
+
+
+</body>
+
+</html>
