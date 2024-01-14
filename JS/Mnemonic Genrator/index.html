@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lemon&family=Noto+Serif&family=PT+Serif:ital,wght@1,400;1,700&display=swap"
+        rel="stylesheet">
+        <link rel="stylesheet" href="main.css">
+    <title>Mnemonic Generator</title>
+</head>
+
+<body>
+    <div class="Container">
+        <nav>
+            <h1>mnemonic</h1>
+        </nav>
+
+        <div class="formContainer">
+
+            <form action="" id="main">
+                <div id="inputContainer">
+                    <input type="text" id="word_1" placeholder="Please enter word">
+                </div>
+                <div id="actionContainer">
+                    <button class="btn" id="add">Add row</button>
+                    <input class="btn" type="submit" value="submit">
+                    <button class="btn" id="reset">Reset</button>
+                </div>
+            </form>
+            <div class="OutputContainer">
+                <h1>Result</h1>
+                <div id="Output">
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="footer"><h5>all rights reserved under: &copy;  Aditya Malik Gupta</h5></div>
+    </div>
+
+    <script>
+        const main = document.querySelector('#main');
+        const Output = document.querySelector('#Output');
+        const inputContainer = document.querySelector('#inputContainer');
+        const add = document.querySelector('#add');
+        const reset = document.querySelector('#reset');
+        const submit = document.querySelector('input[type="submit"]');
+
+        add.addEventListener("click", addInput)
+        reset.addEventListener("click", clearInputBoxes)
+
+
+        main.addEventListener("submit", GenerateWord);
+
+        function addInput(event) {
+            event.preventDefault();
+            const lastElement = inputContainer.lastElementChild;
+            const myArray = lastElement.id.split("_");
+            const newId = `word_${Number(myArray[1]) + 1}`;
+            const newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.id = newId;
+            newInput.placeholder = 'Please enter word';
+            inputContainer.appendChild(newInput);
+        }
+        function GenerateWord(e) {
+            e.preventDefault();
+            while (Output.firstChild) {
+                Output.removeChild(Output.firstChild);
+            }
+
+            let Array1 = []
+            let Array2 = []
+            const inputs = document.querySelectorAll('#inputContainer input');
+            inputs.forEach(item => {
+                if (item.value != '') {
+                    Array1.push(item.value)
+                    Array2.push((item.value).charAt(0))
+                }
+            });
+            const uniquePatterns = generateUniquePatterns(Array2);
+            uniquePatterns.forEach(pattern => {
+                const newdiv = document.createElement('div');
+                newdiv.textContent = pattern
+                newdiv.className = "pattern"
+                Output.appendChild(newdiv);
+
+            });
+        }
+
+        function generateUniquePatterns(arr) {
+            const result = [];
+            const visited = new Array(arr.length).fill(false);
+            function backtrack(currentPattern) {
+                if (currentPattern.length === arr.length) {
+                    result.push(currentPattern.join(''));
+                    return;
+                }
+                for (let i = 0; i < arr.length; i++) {
+                    if (visited[i] || (i > 0 && arr[i] === arr[i - 1] && !visited[i - 1])) {
+                        continue;
+                    }
+                    visited[i] = true;
+                    currentPattern.push(arr[i]);
+                    backtrack(currentPattern);
+                    visited[i] = false;
+                    currentPattern.pop();
+                }
+            }
+            arr.sort();
+            backtrack([]);
+            return result;
+        }
+
+
+        function clearInputBoxes() {
+            const inputs = document.querySelectorAll('#inputContainer input');
+            inputs.forEach(input => {
+                input.value = '';
+            });
+        }
+
+    </script>
+
+
+</body>
+
+</html>
