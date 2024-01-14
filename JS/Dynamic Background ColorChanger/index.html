@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color fliper</title>
+
+    <style>
+        .main{
+            display: flex;
+            /* border: 1px solid #000; */
+            flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: center;
+            margin: 100px;
+            
+        }
+        .button {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            line-height: 100px;
+            font-size: 30px;
+            border: 1px solid #000;
+            text-align: center;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <h1>Color Switcher</h1>
+    <div class="main">
+        
+        <div class="button" id="white">white</div>
+        <div class="button" id="red">red</div>
+        <div class="button" id="blue">blue</div>
+        <div class="button" id="green">green</div>
+        <div class="button" id="yellow">yellow</div>
+
+
+    </div>
+
+
+    <script>
+        const buttons = document.querySelectorAll(".button");
+        const main = document.querySelector(".main");
+        const body = document.querySelector("body")
+        buttons.forEach(element => {
+            element.addEventListener("click", () => {
+                if (element.id === "white" || element.id === "yellow") {
+                    body.style.backgroundColor = element.id
+                    buttons.forEach( button =>{
+                        button.style.border = "1px solid #000";
+                        button.style.color = "#000";
+
+                    })
+                }
+                else{
+                    body.style.backgroundColor = element.id
+                    buttons.forEach( button =>{
+                        button.style.border = "1px solid #fff";
+                        button.style.color = "#fff";
+
+                    })
+                }
+            });
+    });
+
+
+    </script>
+
+
+
+</body>
+
+</html>
