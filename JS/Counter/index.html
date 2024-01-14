@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter </title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .container{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            /* border: 1px solid #000; */
+        }
+        #counterValue{
+            width: 500px;
+            height: 250px;
+            font-size: 100px;
+            line-height: 250px;
+            text-align: center;
+            /* border: 1px solid #000; */
+        }
+        #actionBox
+        {
+            width: 500px;
+            height: 50px;
+            text-align: center;
+            /* border: 1px solid #000; */
+        }
+        #decrease, #reset, #increase{
+            background-color: black;
+            color: #fff;
+            font-size: 25px;
+            width: 100px;
+            height: inherit;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    
+<div class="container">
+    <h1>Counter</h1>
+    <div id="counterValue">0</div>
+    <div id="actionBox">
+        <button id="decrease">-</button>
+        <button id="reset">Rest</button>
+        <button id="increase">+</button>
+    </div>
+</div>
+
+<script>
+    const counterValue = document.querySelector('#counterValue')
+    const actionBox = document.querySelectorAll('#actionBox')
+
+    actionBox.forEach( (action) => {
+        console.log("aa", action);
+        action.addEventListener("click", counter)
+    });
+
+    function counter(e){
+        console.log(e.target.id);
+        setValue = 0
+        if (e.target.id === 'reset') {
+            setValue = 0
+        }
+        if (e.target.id === 'decrease') {
+            setValue = Number(counterValue.innerHTML) - 1
+        }
+        if (e.target.id === 'increase') {
+            setValue = Number(counterValue.innerHTML) + 1
+        }
+        counterValue.textContent = setValue
+    }
+
+
+    console.log("counterValue",Number(counterValue.innerHTML));
+    console.log(actionBox);
+
+</script>
+
+</body>
+</html>
