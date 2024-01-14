@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Masking</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .mainContainer {
+            border: 1px solid #000;
+            height: 99vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .subContainerLeft,
+        .subContainerRight {
+            border: 1px solid #000;
+            width: 50%;
+            height: inherit;
+        }
+
+        .subContainerLeft {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .formSection {
+            border: 1px solid #000;
+            width: 80%;
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .formSection #main {
+            height: 100%;
+            /* border: 1px solid #000; */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between
+        }
+
+        #main #inputContainer {
+            border: 1px solid #000;
+            display: flex;
+            /* height: 95%; */
+            flex-direction: column;
+        }
+
+        #brandContainer {
+            border: 1px solid #000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #action {
+            border: 1px solid #000;
+        }
+
+        .outputSection {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mainContainer">
+        <div class="subContainerLeft">
+            <div class="formSection">
+                <form action="" id="main">
+                    <div id="inputContainer">
+                        <input type="number" id="noCountry" placeholder="Enter no of country">
+                        <label>Enter Country Name</label>
+                        <textarea name="country" id="country" rows="10" cols="10"></textarea>
+                        <div id="brandContainer">
+                        </div>
+                    </div>
+                    <div id="action">
+                        <button id="addbox">Add box</button>
+                        <input type="submit" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="subContainerRight">
+            <div class="outputSection">bbbb</div>
+        </div>
+    </div>
+
+
+
+
+    <Script>
+        const addbox = document.querySelector('#addbox')
+        const noCountry = document.querySelector('#noCountry')
+        const brandContainer = document.querySelector('#brandContainer')
+        const main = document.querySelector('#main');
+        const submit = document.querySelector('input[type="submit"]')
+        const country = document.querySelector('#country');
+        addbox.addEventListener("click", GetCountry)
+        main.addEventListener("submit", genrateBrand)
+
+        function GetCountry(e) {
+            e.preventDefault();
+            // console.log(noCountry.value);
+            const newlabel = document.createElement('label');
+            newlabel.textContent = 'Please Enter Brand list '
+            brandContainer.appendChild(newlabel);
+            for (let index = 0; index < noCountry.value; index++) {
+                const newTextarea = document.createElement('textarea');
+                newTextarea.name = 'brandlist' + index;
+                newTextarea.id = 'brandlist' + index;
+                newTextarea.rows = 10;
+                newTextarea.cols = 10;
+                brandContainer.appendChild(newTextarea);
+
+            }
+        }
+
+        function removeDuplicates(arr) {
+            return arr.filter((item,
+                index) => arr.indexOf(item) === index);
+        }
+
+        function grabDataformTextarea(number) {
+            let brandArrray = {}
+            let newArray = []
+            for (let index = 0; index < number.value; index++) {
+                newTextarea_id = '#brandlist' + index;
+                const brandlist = document.querySelector(newTextarea_id)
+                let myArray = (brandlist.value).split('\n');
+                // let newArray = myArray.filter(element => element.trim() !== '');
+                myArray.forEach(element => {
+                    if (element.trim() !== '') {
+                        newArray.push(element.trim())
+                    }
+                })
+                newArray.sort();
+                brandArrray[index] = newArray
+            }
+            return brandArrray
+        }
+
+        function fullbrandlist(brandArrray) {
+            let fullbrandArrray = []
+            for (let key in brandArrray) {
+                if (brandArrray.hasOwnProperty(key)) {
+                    value = brandArrray[key];
+                    value.forEach(ele => {
+                        fullbrandArrray.push(ele)
+                    })
+                }
+            }
+
+
+
+
+            return fullbrandArrray
+        }
+
+        function getCountrylist() {
+            let countrylist = (country.value).split('\n');
+            let fcountrylist = countrylist.filter(element => element.trim() !== '');
+            return fcountrylist
+        }
+
+
+
+        function generateBrandCountryMap(mainList, countryDic) {
+                const result = {};
+
+                mainList.forEach(brand => {
+                    result[brand] = [];
+
+                    for (const country in countryDic) {
+                        if (countryDic[country].includes(brand)) {
+                            result[brand].push(country);
+                        }
+                    }
+                });
+
+                return result;
+            }
+
+
+        function genrateBrand(e) {
+            e.preventDefault();
+
+            let countrylist = getCountrylist()
+            let brandArrray = grabDataformTextarea(noCountry)
+            let fullbrandArrray = fullbrandlist(brandArrray)
+            let finalbrandlist = removeDuplicates(fullbrandArrray)
+            let result = generateBrandCountryMap(finalbrandlist, brandArrray)
+            console.log(result);
+            // let countryVarname = 'hid_country'
+            // console.log("countrylist", countrylist);
+            // console.log("brandArrray", brandArrray);
+            // console.log("finalbrandlist", finalbrandlist);
+            // let finalData = {}
+            // finalbrandlist.forEach(element => {
+            //     finalData[element] = []
+            // });
+            // console.log("finalData 1", finalData);
+            // for (let key in finalData) {
+            //     if (finalData.hasOwnProperty(key)) {
+            //         value = finalData[key];
+            //         console.log(key, value);
+            //     }
+            // }
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+    </Script>
+
+
+</body>
+
+</html>
